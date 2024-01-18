@@ -4,10 +4,13 @@ import * as THREE from "three";
 import { THREEx, ARjs } from "@ar-js-org/ar.js-threejs"
 import Cannon from 'cannon';
 import type { ArMarkerControls } from "@ar-js-org/ar.js-threejs/types/ArMarkerControls";
-
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';  
+import { moveObject } from "./game";
+import { generateRandomStationeryData } from "./test_data"
 THREEx.ArToolkitContext.baseURL = "./";
 
 const log = useLogger();
+export const group = new THREE.Group();
 
 export interface AREngineDelegate {
     onRender?(renderer: THREE.Renderer): void;
@@ -41,7 +44,6 @@ export class AREngine {
 
     replaceScene(ar_scene: ARScene) {
         const nodes = ar_scene.makeObjectTree();
-
         if (this.baseNode) {
             this.scene.remove(this.baseNode);
         }
@@ -63,14 +65,75 @@ export class AREngine {
 
         /* RENDERER */
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        // renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        // renderer.xr.enabled = true;
         ar_base_element.appendChild(renderer.domElement);
-
+        
         /* Scene */
         const scene = this.scene; //new THREE.Scene();
         // scene.background = new THREE.Color(0x000000);
+
+        //GTLF
+        //groupにaddされる
+        async function loadAndAddModel(url: string, position: THREE.Vector3, rotation: THREE.Euler, scale: THREE.Vector3) {
+            try {
+                const Model: THREE.Object3D = await new Promise((resolve, reject) => {
+                    const loader = new GLTFLoader();
+                    loader.load(url, (gltf) => {
+                        const model = gltf.scene;
+                        model.position.copy(position);
+                        model.rotation.copy(rotation);
+                        model.scale.copy(scale);
+                        group.add(model);
+                        resolve(model);
+                    }, undefined, reject);
+                });
+            } catch (error) {
+                console.error('Error loading GLB model:', error);
+            }
+        }
+        //場合わけ
+        function addData(data: any): void {
+            if (!data) {
+                console.error('Invalid data.');
+                return;
+            }
+        
+            switch (data.objectType) {
+                case 'pen':
+                    loadAndAddModel('./src/glb_file/pen.glb', data.position, data.rotation, data.scale);
+                    break;
+                case 'note':
+                    loadAndAddModel('./src/glb_file/note.glb', data.position, data.rotation, data.scale);
+                    break;
+                case 'eraser':
+                    loadAndAddModel('./src/glb_file/erasel.glb', data.position, data.rotation, data.scale);
+                    break;    
+                case 'pen_case':
+                    loadAndAddModel('./src/glb_file/pen_case.glb', data.position, data.rotation, data.scale);
+                    break;     
+                case 'ruler':
+                    loadAndAddModel('./src/glb_file/ruler.glb', data.position, data.rotation, data.scale);
+                    break; 
+                case 'pencil':
+                    loadAndAddModel('./src/glb_file/pencil.glb', data.position, data.rotation, data.scale);
+                    break;              
+                // Add cases for other object types if needed
+                default:
+                    console.warn('Unknown object type:', data.objectType);
+                    break;
+            }
+        }
+        
+        const test_data_1 = generateRandomStationeryData();
+        addData(test_data_1)
+        const test_data_2 = generateRandomStationeryData();
+        addData(test_data_2)
+        const test_data_3 = generateRandomStationeryData();
+        addData(test_data_3)
+        loadAndAddModel.call(this, './src/glb_file/caterpillar.glb', new THREE.Vector3(0, 0, 0), new THREE.Euler(0, 0, 0), new THREE.Vector3(0.1, 0.1, 0.1));
+        //表示
+        scene.add(group);
+        moveObject();
 
         /* Camera */
         const camera = new THREE.Camera();
