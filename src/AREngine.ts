@@ -5,7 +5,7 @@ import { THREEx, ARjs } from "@ar-js-org/ar.js-threejs"
 import Cannon from 'cannon';
 import type { ArMarkerControls } from "@ar-js-org/ar.js-threejs/types/ArMarkerControls";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';  
-import { moveObject } from "./game";
+//import { moveObject } from "./game";
 import { generateRandomStationeryData } from "./test_data"
 THREEx.ArToolkitContext.baseURL = "./";
 
@@ -133,7 +133,7 @@ export class AREngine {
         loadAndAddModel.call(this, './src/glb_file/caterpillar.glb', new THREE.Vector3(0, 0, 0), new THREE.Euler(0, 0, 0), new THREE.Vector3(0.1, 0.1, 0.1));
         //表示
         scene.add(group);
-        moveObject();
+        //moveObject();
 
         /* Camera */
         const camera = new THREE.Camera();
@@ -169,7 +169,7 @@ export class AREngine {
         // var torusMesh = new THREE.Mesh(torusKnotGeometry, material);
         // torusMesh.position.y = 0.5
         // scene.add(torusMesh);
-        make_coordinate_arrows(scene, 1);
+        //make_coordinate_arrows(scene, 1);
 
 
         ////
@@ -341,16 +341,16 @@ export class AREngine {
     }
 };
 
-function make_coordinate_arrows(node: THREE.Object3D, len: number) {
+//function make_coordinate_arrows(node: THREE.Object3D, len: number) {
     // X軸の矢印（赤色）
-    const arrowX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), len, 0xff0000);
-    node.add(arrowX);
+    //const arrowX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), len, 0xff0000);
+    //node.add(arrowX);
 
     // Y軸の矢印（緑色）
-    const arrowY = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), len, 0x00ff00);
-    node.add(arrowY);
+    //const arrowY = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), len, 0x00ff00);
+    //node.add(arrowY);
 
     // Z軸の矢印（青色）
-    const arrowZ = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), len, 0x0000ff);
-    node.add(arrowZ);
-}
+    //const arrowZ = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), len, 0x0000ff);
+    //node.add(arrowZ);
+//}

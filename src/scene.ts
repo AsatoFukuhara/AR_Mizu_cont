@@ -10,8 +10,8 @@ export interface ARScene {
 
     name(): string;
 };
-
-export class TestScene implements ARScene {
+/*
+export class shot implements ARScene {
     cube?: THREE.Object3D;
 
     name() { return "test"; }
@@ -31,14 +31,14 @@ export class TestScene implements ARScene {
     }
 }
 
-
+*/
 
 
 export function moveObject() {
     cube.position.x += 1; // x軸方向に1つ進める
 }
 
-export class TestScene2 implements ARScene {
+export class shot implements ARScene {
     cube?: THREE.Object3D;
 
     name() { return "test2"; }

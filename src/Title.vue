@@ -1,14 +1,14 @@
-<!-- Title.vue -->
 <template>
-    <div>
-      <h1>Game Title</h1>
-      <!-- Add title screen content here -->
+  <div :class="$style.parent">
+    <div :class="$style.child">
+      <h1>スタート画面
+      </h1>
     </div>
-  </template>
-  
-  <script lang="ts">
-  export default {
-    // Add component logic here
-  };
-  </script>
-  
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Routing'
+}
+</script>

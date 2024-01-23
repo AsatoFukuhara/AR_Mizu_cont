@@ -1,3 +1,4 @@
+
 {
   "files": [],
   "references": [
@@ -8,4 +9,25 @@
       "path": "./tsconfig.app.json"
     }
   ]
+  
 }
+
+/*
+{
+  "compilerOptions": {
+    // 他の設定...
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}
+*/
